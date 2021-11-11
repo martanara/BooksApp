@@ -31,6 +31,13 @@
     for(let book in dataSource.books){
 
       const bookData = dataSource.books[book];
+
+      const ratingBgc = determineRatingBgc(bookData.rating);
+      bookData.ratingBgc = ratingBgc;
+
+      const ratingWidth = bookData.rating * 10;
+      bookData.ratingWidth = ratingWidth;
+
       const generatedHTML = templates.bookItem(bookData);
       const booksDOM = utils.createDOMFromHTML(generatedHTML);
       const booksList = document.querySelector(select.containerOf.books);
@@ -77,7 +84,7 @@
   };
 
   const filterBooks = function(){
-    
+
     for(let book in dataSource.books){
       const bookData = dataSource.books[book];
       const filteredBook = document.querySelector('.book__image[data-id="' + bookData.id + '"]');
@@ -96,6 +103,22 @@
         filteredBook.classList.remove(classNames.classHidden);
       }
     }
+  };
+
+  const determineRatingBgc = function(rating){
+    let background = '';
+
+    if(rating < 6){
+      background = 'linear-gradient(to bottom,  #fefcea 0%, #f1da36 100%)';
+    } else if(rating > 6 && rating <= 8){
+      background = 'linear-gradient(to bottom, #b4df5b 0%,#b4df5b 100%)';
+    } else if(rating > 8 && rating <= 9){
+      background = 'linear-gradient(to bottom, #299a0b 0%, #299a0b 100%)';
+    }else if(rating > 9){
+      background = 'linear-gradient(to bottom, #ff0084 0%,#ff0084 100%)';
+    }
+
+    return background;
   };
 
   render();
